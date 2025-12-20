@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     float x;
     float y;
+    Vector3 speedVector;
 
     public Vector3 limitMax;
     public Vector3 limitMin;
@@ -71,13 +72,15 @@ public class PlayerController : MonoBehaviour
             FireBomb();
             ShieldModule();
         }
+        if (isDead == true) MoveByInertia();
     }
     public void Move()
     {
         x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
         y = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        speedVector = new (x, y, 0);
 
-        transform.Translate(new Vector3(x, y, 0));
+        transform.Translate(speedVector);
 
         if (transform.position.x > limitMax.x)
         {
@@ -103,6 +106,11 @@ public class PlayerController : MonoBehaviour
             temp.x = transform.position.x;
             transform.position = temp;
         }
+    }
+
+    public void MoveByInertia()
+    {
+        transform.Translate(speedVector);
     }
 
     public void FireBullet()
