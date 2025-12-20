@@ -27,14 +27,24 @@ public class GameManager : MonoBehaviour
     {
         lifeCount = 2;
         UIManager.instance.LifeCheck(lifeCount);
-        CreatePlayerorGameOver();
+        if (lifeCount >= 0) CreatePlayer();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (lifeCount < 0 && UIManager.instance.isGameOver == false && (playerController == null || playerController.deadAnimFinished == true))
+        {
+            GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
+            GameObject[] bombs = GameObject.FindGameObjectsWithTag("BulletBomb");
+            Debug.Log("³²Àº ÃÑ¾Ë °¹¼ö: " + bullets.Length + ", ³²Àº ÆøÅº °¹¼ö : " + bombs.Length);
+            if (bullets.Length == 0 && bombs.Length == 0)
+            {
+                UIManager.instance.GameOver();
+            }
+        }
     }
+
     public void AddLife(int _life)
     {
         lifeCount += _life;
@@ -46,13 +56,12 @@ public class GameManager : MonoBehaviour
     {
         lifeCount--;
         Debug.Log("Life Count: " + lifeCount);
-        if (playerController.deadAnimFinished == true)
-            CreatePlayerorGameOver();
+        if (playerController.deadAnimFinished == true && lifeCount >= 0)
+            CreatePlayer();
     }
 
-    public void CreatePlayerorGameOver()
+    public void CreatePlayer()
     {
-        if (lifeCount >= 0)
         {
             float x = Random.Range(-9.0f, 9.0f);
             float y = -18.0f;
@@ -64,10 +73,5 @@ public class GameManager : MonoBehaviour
             UIManager.instance.BombCheck(playerController.Bomb);
             UIManager.instance.ShieldAmmoGaugeController(playerController);
         }
-        else if (lifeCount < 0 && playerController.deadAnimFinished == true)
-        {
-            UIManager.instance.GameOver();
-        }
     }
-
 }

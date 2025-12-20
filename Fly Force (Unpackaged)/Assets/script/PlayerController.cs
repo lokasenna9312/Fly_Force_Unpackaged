@@ -63,11 +63,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frae
     private void Update()
     {
-        Move();
-        FireBullet();
-        FireBomb();
-        ShieldModule();
         RespawnShield();
+        if (isDead == false)
+        {
+            Move();
+            FireBullet();
+            FireBomb();
+            ShieldModule();
+        }
     }
     public void Move()
     {
@@ -104,6 +107,7 @@ public class PlayerController : MonoBehaviour
 
     public void FireBullet()
     {
+        if (isDead == true) return;
         if (Input.GetKey(KeyCode.LeftShift) && currentShieldInstance == null)
         {
             Debug.Log("Shoot");
@@ -133,6 +137,7 @@ public class PlayerController : MonoBehaviour
     }
     public void FireBomb()
     {
+        if (isDead == true) return;
         if (Input.GetKeyDown(KeyCode.Space) && currentShieldInstance == null && IsBulletBombPresent == false)
         {
             Debug.Log("Bomb");
@@ -260,8 +265,8 @@ public class PlayerController : MonoBehaviour
                 Destroy(currentShieldInstance);
                 currentShieldInstance = null;
             }
-            animator.SetInteger("State", 1);
             isDead = true;
+            animator.SetInteger("State", 1);
             GetComponent<Collider2D>().enabled = false;
             if (SoundManager.instance.playerDeadSound.isPlaying == false)
                 SoundManager.instance.playerDeadSound.Play();
@@ -274,7 +279,7 @@ public class PlayerController : MonoBehaviour
     {
         deadAnimFinished = true;
         Destroy(gameObject);
-        GameManager.instance.CreatePlayerorGameOver();
+        if (GameManager.instance.lifeCount >= 0) GameManager.instance.CreatePlayer();
         GetComponent<Collider2D>().enabled = true;
         UIManager.instance.LifeCheck(GameManager.instance.lifeCount);
     }

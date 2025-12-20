@@ -72,7 +72,6 @@ public class UIManager : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log("Update is Running");
         if (BlackOutCurtain_value > 0.0f)
         {
             HideBlackOutCurtain();  
@@ -80,6 +79,13 @@ public class UIManager : MonoBehaviour
         if (currentBoss != null)
         { 
             BossHpBarCheck();
+        }
+        if (isGameOver)
+        {
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.RightControl))
+            {
+                ResetHighScore();
+            }
         }
     }
 
@@ -176,18 +182,29 @@ public class UIManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (isGameOver == true) return;
+        else isGameOver = true;
+
         GameOverImage.gameObject.SetActive(true);
         if (score > highScore)
         {
             highScore = score;
-            PlayerPrefs.SetInt("HighScore", score);
-        }
-        if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.RightControl))
-        {
-            score = 0;
-            highScore = 0;
             PlayerPrefs.SetInt("HighScore", highScore);
         }
+        RefreshScores();
+    }
+
+    private void ResetHighScore()
+    {
+        score = 0;
+        highScore = 0;
+        PlayerPrefs.SetInt("HighScore", 0);
+        RefreshScores();
+        Debug.Log("High Score Reset!");
+    }
+
+    private void RefreshScores()
+    { 
         scoreText.text = score.ToString();
         highScoreText.text = highScore.ToString();
     }
