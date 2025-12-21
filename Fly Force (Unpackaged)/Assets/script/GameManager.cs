@@ -33,14 +33,26 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (lifeCount < 0 && UIManager.instance.isGameOver == false && (playerController == null || playerController.deadAnimFinished == true))
+        if (UIManager.instance.isGameOver == true) return;
+        if (lifeCount >= 0)
         {
-            GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
-            GameObject[] bombs = GameObject.FindGameObjectsWithTag("BulletBomb");
-            Debug.Log("³²Àº ÃÑ¾Ë °¹¼ö: " + bullets.Length + ", ³²Àº ÆøÅº °¹¼ö : " + bombs.Length);
-            if (bullets.Length == 0 && bombs.Length == 0)
+            if (playerController == null && GameObject.FindWithTag("Player") == null)
+            { 
+                Debug.Log("Miraculous Victory! Player respawned and game goes on.");
+                CreatePlayer();
+            }
+        }
+        else
+        {
+            if (playerController == null || playerController.deadAnimFinished == true)
             {
-                UIManager.instance.GameOver();
+                GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
+                GameObject[] bombs = GameObject.FindGameObjectsWithTag("BulletBomb");
+                Debug.Log("Bullets on the scene: " + bullets.Length + ", Bombs on the scene: " + bombs.Length);
+                if (bullets.Length == 0 && bombs.Length == 0)
+                {
+                    UIManager.instance.GameOver();
+                }
             }
         }
     }

@@ -279,7 +279,6 @@ public class PlayerController : MonoBehaviour
             if (SoundManager.instance.playerDeadSound.isPlaying == false)
                 SoundManager.instance.playerDeadSound.Play();
             GameManager.instance.PlayerDeath();
-            GetComponent<Collider2D>().enabled = false;
         }
     }
 

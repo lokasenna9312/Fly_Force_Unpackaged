@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
@@ -38,5 +38,11 @@ public class TitleManager : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", highScore);
         }
         highScoreText.text = highScore.ToString();
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("Game");
+        Destroy(TitleManager.instance.gameObject);
     }
 }

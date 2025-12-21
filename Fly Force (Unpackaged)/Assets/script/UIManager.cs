@@ -184,7 +184,6 @@ public class UIManager : MonoBehaviour
     {
         if (isGameOver == true) return;
         else isGameOver = true;
-
         GameOverImage.gameObject.SetActive(true);
         if (score > highScore)
         {
