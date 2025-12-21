@@ -82,7 +82,7 @@ public class UIManager : MonoBehaviour
         }
         if (isGameOver)
         {
-            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.RightControl))
+            if (Input.GetButton("Bomb") && Input.GetButton("Shield"))
             {
                 ResetHighScore();
             }

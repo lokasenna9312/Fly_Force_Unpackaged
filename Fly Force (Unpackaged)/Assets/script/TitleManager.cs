@@ -32,7 +32,7 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.RightControl))
+        if (Input.GetButton("Bomb") && Input.GetButton("Shield"))
         {
             highScore = 0;
             PlayerPrefs.SetInt("HighScore", highScore);

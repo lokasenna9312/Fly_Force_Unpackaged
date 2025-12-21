@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
     public void FireBullet()
     {
         if (isDead == true) return;
-        if (Input.GetKey(KeyCode.LeftShift) && currentShieldInstance == null)
+        if (Input.GetButton("Gun") && currentShieldInstance == null)
         {
             Debug.Log("Shoot");
             fireDelay += Time.deltaTime;
@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
     public void FireBomb()
     {
         if (isDead == true) return;
-        if (Input.GetKeyDown(KeyCode.Space) && currentShieldInstance == null && IsBulletBombPresent == false)
+        if (Input.GetButtonDown("Bomb") && currentShieldInstance == null && IsBulletBombPresent == false)
         {
             Debug.Log("Bomb");
             if (Bomb >= 1)
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
         }
         if (ShieldAmmo == -1.0f)
             Debug.Log("Shield is Fully Charged!");
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetButtonDown("Shield"))
         {
             if (currentShieldInstance == null && ShieldAmmo == -1.0f)
             {
