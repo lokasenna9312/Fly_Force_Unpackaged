@@ -372,10 +372,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cb4b16b9a65ba4e931a0c8b04c5b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletBombController
-  damagePoint: 0
   hitCount: 0
-  time: 0
   speed: 0
   acceleration: 0
   player: {fileID: 0}
   playerController: {fileID: 0}
+  trailParticle: {fileID: 0}
+  time: 0

@@ -1,39 +1,45 @@
 using UnityEngine;
 
-public class BulletBombController : ProjectileController
+public class BulletBombController : TardionProjectileController
 {
-    private Rigidbody2D momentum;
+    private Rigidbody2D _momentum;
+    public override Rigidbody2D momentum
+    {
+        get => _momentum;
+        set => _momentum = value;
+    }
+    public float _acceleration;
+    public override float acceleration
+    {
+        get => _acceleration;
+        set => _acceleration = value;
+    }
+    private float _burstTime;
+    public override float burstTime
+    {
+        get => _burstTime;
+        set => _burstTime = value;
+    }
+    private int _damage;
+    public override int damagePoint
+    {
+        get => _damage;
+        set => _damage = value;
+    }
     public override int missedShotPenalty => 100;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
-        acceleration = 20000.0f;
-        damagePoint = playerController.BombDamage;
         momentum = GetComponent<Rigidbody2D>();
+        acceleration = 20000.0f;
+        burstTime = 2.0f;
+        damagePoint = playerController.BombDamage;
     }
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
-    }
-
-    public void FixedUpdate()
-    {
-        Move();
-    }
-
-    public void Move()
-    {
-        if (time < 2.0f)
-        {
-            momentum.AddForce(Vector3.up * acceleration);
-        }
-        else
-        {
-            time = 2.0f;
-            momentum.AddForce(new Vector3(0,0,0));
-        }
     }
 }

@@ -1,24 +1,39 @@
 using UnityEngine;
 
-public class BulletController : ProjectileController
+public class BulletController : LuxonProjectileController
 {
+    private int _damage;
+    public override int damagePoint
+    {
+        get => _damage;
+        set => _damage = value;
+    }
+    private float _speed;
+    public override float speed
+    {
+        get => _speed;
+        set => _speed = value;
+    }
     public override int missedShotPenalty => 10;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
         speed = 30.0f;
-        damagePoint = playerController.Damage;
+        if (playerController != null)
+        {
+            damagePoint = playerController.Damage;
+        }
     }
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
         Move();
     }
 
-    public void Move()
+    void Move()
     {
         transform.Translate(Vector3.up * speed * Time.deltaTime);
     }

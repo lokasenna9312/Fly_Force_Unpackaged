@@ -2,30 +2,25 @@ using UnityEngine;
 
 public abstract class ProjectileController : MonoBehaviour
 {
-    public int damagePoint;
+    public abstract int damagePoint { get; set; }
     public int hitCount = 0;
-    public float time;
-    public float speed;
-    public float acceleration;
     public GameObject player;
     public PlayerController playerController;
     public abstract int missedShotPenalty { get; }
 
-    public virtual void Start()
+    protected virtual void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
             playerController = player.GetComponent<PlayerController>();
-        time = 0.0f;
     }
 
-    public virtual void Update()
+    protected virtual void Update()
     {
-        time += Time.deltaTime;
         DestroyOverrunProjectile();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("enemy") || collision.CompareTag("ItemDropper"))
         {
@@ -63,7 +58,7 @@ public abstract class ProjectileController : MonoBehaviour
         }
     }
 
-    public void DestroyOverrunProjectile()
+    protected void DestroyOverrunProjectile()
     {
         if (transform.position.y > 20.0f)
         {
@@ -75,7 +70,7 @@ public abstract class ProjectileController : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         if (gameObject.CompareTag("BulletBomb") && playerController != null)
         {
