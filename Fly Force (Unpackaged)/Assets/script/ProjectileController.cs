@@ -4,7 +4,9 @@ public abstract class ProjectileController : MonoBehaviour
 {
     public int damagePoint;
     public int hitCount = 0;
+    public float time;
     public float speed;
+    public float acceleration;
     public GameObject player;
     public PlayerController playerController;
     public abstract int missedShotPenalty { get; }
@@ -14,17 +16,13 @@ public abstract class ProjectileController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
             playerController = player.GetComponent<PlayerController>();
+        time = 0.0f;
     }
 
-    public void Update()
+    public virtual void Update()
     {
-        Move();
+        time += Time.deltaTime;
         DestroyOverrunProjectile();
-    }
-
-    public void Move()
-    {
-        transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

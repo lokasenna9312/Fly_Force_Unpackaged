@@ -11,4 +11,17 @@ public class BulletController : ProjectileController
         speed = 30.0f;
         damagePoint = playerController.Damage;
     }
+
+    public override void Update()
+    {
+        base.Update();
+        Move();
+    }
+
+    public void Move()
+    {
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
+    }
+
+
 }

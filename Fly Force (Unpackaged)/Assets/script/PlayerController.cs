@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
     public GameObject BulletBomb;
     public bool IsBulletBombPresent { get; private set; }
     public int Bomb;
-    public int BombPosY;
     public int BombDamage;
 
     public GameObject Shield;
@@ -55,7 +54,6 @@ public class PlayerController : MonoBehaviour
         ShieldScorePenalty = 100;
         ShieldDamage = 100;
 
-        BombPosY = -30;
         BombDamage = 50;
         UIManager.instance.BombCheck(Bomb);
         IsBulletBombPresent = false;
@@ -154,7 +152,6 @@ public class PlayerController : MonoBehaviour
                 IsBulletBombPresent = true;
                 Debug.Log("A bomb is on the way!");
                 GameObject go = Instantiate(BulletBomb, transform.position, Quaternion.identity);
-                go.transform.position = new Vector3(transform.position.x, BombPosY, transform.position.z);
                 Bomb--;
                 UIManager.instance.BombCheck(Bomb);
             }
