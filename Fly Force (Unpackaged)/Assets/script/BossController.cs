@@ -38,7 +38,7 @@ public class BossController : TargetController
 
     float fireDelay;
 
-    void Awake()
+    new void Awake()
     {
         base.Awake();
         hp1 = 150;

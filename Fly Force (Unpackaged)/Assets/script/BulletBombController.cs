@@ -35,7 +35,8 @@ public class BulletBombController : TardionProjectileController
         momentum = GetComponent<Rigidbody2D>();
         acceleration = 20000.0f;
         burstTime = 2.0f;
-        damagePoint = playerController.BombDamage;
+        if (playerController != null)
+            damagePoint = playerController.BombDamage;
     }
 
     protected override void Update()

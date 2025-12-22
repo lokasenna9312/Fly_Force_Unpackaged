@@ -1,18 +1,30 @@
 using UnityEngine;
 
-public class BulletController : LuxonProjectileController
+public class BulletController : ImpulseProjectileController
 {
+    private Rigidbody2D _momentum;
+    public override Rigidbody2D momentum
+    {
+        get => _momentum;
+        set => _momentum = value;
+    }
+    public float _acceleration;
+    public override float acceleration
+    {
+        get => _acceleration;
+        set => _acceleration = value;
+    }
+    private float _burstTime;
+    public override float burstTime
+    {
+        get => _burstTime;
+        set => _burstTime = value;
+    }
     private int _damage;
     public override int damagePoint
     {
         get => _damage;
         set => _damage = value;
-    }
-    private float _speed;
-    public override float speed
-    {
-        get => _speed;
-        set => _speed = value;
     }
     public override int missedShotPenalty => 10;
 
@@ -20,22 +32,18 @@ public class BulletController : LuxonProjectileController
     protected override void Start()
     {
         base.Start();
-        speed = 30.0f;
+        momentum = GetComponent<Rigidbody2D>();
+        acceleration = 20.0f;
+        burstTime = 2.0f;
         if (playerController != null)
-        {
             damagePoint = playerController.Damage;
-        }
+        if (momentum != null)
+            momentum.AddForce(Vector2.up * acceleration, ForceMode2D.Impulse);
     }
 
     protected override void Update()
     {
         base.Update();
-        Move();
-    }
-
-    void Move()
-    {
-        transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 
 
