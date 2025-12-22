@@ -33,8 +33,7 @@ public class BulletController : ImpulseProjectileController
     {
         base.Start();
         momentum = GetComponent<Rigidbody2D>();
-        acceleration = 20.0f;
-        burstTime = 2.0f;
+        acceleration = 30.0f;
         if (playerController != null)
             damagePoint = playerController.Damage;
         if (momentum != null)
