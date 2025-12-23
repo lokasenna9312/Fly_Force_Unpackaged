@@ -105,8 +105,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23af586f08d307445a38b157551a5edc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBulletController
-  moveSpeed: 0
-  rotateSpeed: 0
+  hitEffectPrefab: {fileID: 6803883172580027910, guid: b8b388eb2b256f14ea280b37cc6a0ff5, type: 3}
+  player: {fileID: 0}
+  playerController: {fileID: 0}
+  distance: {x: 0, y: 0, z: 0}
+  dir: {x: 0, y: 0, z: 0}
+  time: 0
+  _deltaV: 0
 --- !u!50 &1776419128556751508
 Rigidbody2D:
   serializedVersion: 5
@@ -115,7 +120,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8764986929646269351}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -132,7 +137,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!70 &-1423419020871612449
 CapsuleCollider2D:

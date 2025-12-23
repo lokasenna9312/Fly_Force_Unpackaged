@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BombController : ItemController
+public class ItemBombController : ItemController
 {
 
     protected override void ItemGain()

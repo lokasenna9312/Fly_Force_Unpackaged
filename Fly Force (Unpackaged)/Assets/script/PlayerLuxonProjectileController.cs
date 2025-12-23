@@ -1,13 +1,11 @@
 using UnityEngine;
 
-public abstract class ImpulseProjectileController : ProjectileController
+public abstract class PlayerLuxonProjectileController : PlayerProjectileController
 {
-    public abstract float acceleration { get; set; }
-    public abstract Rigidbody2D momentum { get; set; }
-    public abstract float burstTime { get; set; }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
+
         base.Start();
     }
 

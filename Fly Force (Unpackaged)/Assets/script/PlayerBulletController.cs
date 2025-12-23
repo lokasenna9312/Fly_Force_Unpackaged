@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BulletController : ImpulseProjectileController
+public class PlayerBulletController : PlayerImpulseProjectileController
 {
     private Rigidbody2D _momentum;
     public override Rigidbody2D momentum
@@ -8,17 +8,11 @@ public class BulletController : ImpulseProjectileController
         get => _momentum;
         set => _momentum = value;
     }
-    public float _acceleration;
-    public override float acceleration
+    public float _deltaV;
+    public override float deltaV
     {
-        get => _acceleration;
-        set => _acceleration = value;
-    }
-    private float _burstTime;
-    public override float burstTime
-    {
-        get => _burstTime;
-        set => _burstTime = value;
+        get => _deltaV;
+        set => _deltaV = value;
     }
     private int _damage;
     public override int damagePoint
@@ -31,19 +25,16 @@ public class BulletController : ImpulseProjectileController
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
+        deltaV = 30.0f;
         base.Start();
-        momentum = GetComponent<Rigidbody2D>();
-        acceleration = 30.0f;
         if (playerController != null)
+        {
             damagePoint = playerController.Damage;
-        if (momentum != null)
-            momentum.AddForce(Vector2.up * acceleration, ForceMode2D.Impulse);
+        }
     }
 
     protected override void Update()
     {
         base.Update();
     }
-
-
 }

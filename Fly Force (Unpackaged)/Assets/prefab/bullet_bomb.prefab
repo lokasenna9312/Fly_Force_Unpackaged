@@ -164,6 +164,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4156521755904162501}
+  - {fileID: 8053595732752687812}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7932159449465452773
@@ -372,10 +373,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cb4b16b9a65ba4e931a0c8b04c5b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletBombController
-  hitCount: 0
-  speed: 0
-  acceleration: 0
+  hitEffectPrefab: {fileID: 6803883172580027910, guid: 90b5053ecf472214dbe54fc9151d395e, type: 3}
   player: {fileID: 0}
   playerController: {fileID: 0}
-  trailParticle: {fileID: 0}
+  hitCount: 0
   time: 0
+  trail: {fileID: 6803883172580027910, guid: 75f24a0438c82ee48a0a612f85c55577, type: 3}
+  nozzle: {fileID: 8053595732752687812}
+  _acceleration: 0
+--- !u!1 &2746564271215782773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8053595732752687812}
+  m_Layer: 0
+  m_Name: Nozzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8053595732752687812
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2746564271215782773}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5363261626691654662}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

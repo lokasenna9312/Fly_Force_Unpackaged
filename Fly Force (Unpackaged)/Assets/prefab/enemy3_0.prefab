@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5424512348208594316}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.4407401, y: 8.10498, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -201,8 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2796b8cdce79cf945a54aaa0d8a5edfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemycontroller
+  spriteRenderer: {fileID: 6226786528563410695}
+  currentColor: {r: 0, g: 0, b: 0, a: 0}
   ememyBullet: {fileID: 2301198003574767160, guid: 1885884e39db5bb429c4bb2db0806393, type: 3}
   item: []
-  hp: 0
   tagName: 
-  spriteRenderer: {fileID: 6226786528563410695}

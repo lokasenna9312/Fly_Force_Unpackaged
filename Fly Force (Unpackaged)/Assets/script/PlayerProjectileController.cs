@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public abstract class ProjectileController : MonoBehaviour
+public abstract class PlayerProjectileController : MonoBehaviour
 {
     public abstract int damagePoint { get; set; }
-    public int hitCount = 0;
     public GameObject player;
     public PlayerController playerController;
+    public int hitCount = 0;
     public abstract int missedShotPenalty { get; }
 
     protected virtual void Start()
@@ -22,9 +22,9 @@ public abstract class ProjectileController : MonoBehaviour
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
+        hitCount++;
         if (collision.CompareTag("enemy") || collision.CompareTag("ItemDropper"))
         {
-            hitCount++;
             UIManager.instance.AddScore(10);
             EnemyController collidedEnemy = collision.GetComponent<EnemyController>();
             if (collidedEnemy != null)
@@ -39,7 +39,6 @@ public abstract class ProjectileController : MonoBehaviour
         }
         if (collision.CompareTag("Boss"))
         {
-            hitCount++;
             UIManager.instance.AddScore(10);
             BossController collidedBoss = collision.GetComponent<BossController>();
             if (collidedBoss != null)
@@ -66,8 +65,9 @@ public abstract class ProjectileController : MonoBehaviour
             { 
                 UIManager.instance.AddScore(-missedShotPenalty);
             }
-            Destroy(gameObject);
         }
+        if (transform.position.y > 40.0f)
+            Destroy(gameObject);
     }
 
     protected void OnDestroy()

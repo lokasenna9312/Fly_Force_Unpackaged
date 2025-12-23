@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public abstract class TardionProjectileController : ProjectileController
+[RequireComponent(typeof(Rigidbody2D))]
+public abstract class PlayerTardionProjectileController : PlayerProjectileController
 {
     public abstract float acceleration { get; set; }
     public abstract Rigidbody2D momentum { get; set; }
@@ -10,6 +11,7 @@ public abstract class TardionProjectileController : ProjectileController
     protected override void Start()
     {
         base.Start();
+        if (momentum == null) momentum = GetComponent<Rigidbody2D>();
         time = 0.0f;
     }
 
@@ -17,16 +19,17 @@ public abstract class TardionProjectileController : ProjectileController
     protected override void Update()
     {
         base.Update();
-        time += Time.deltaTime;
     }
 
     protected void FixedUpdate()
     {
-        Move(burstTime);
+        if (momentum != null) ApplyForce(burstTime);
+        time += Time.fixedDeltaTime;
     }
 
-    void Move(float burstTime)
+    void ApplyForce(float burstTime)
     {
+        if (momentum == null) return;
         if (time < burstTime)
         {
             momentum.AddForce(Vector3.up * acceleration);
@@ -34,7 +37,6 @@ public abstract class TardionProjectileController : ProjectileController
         else
         {
             time = burstTime;
-            momentum.AddForce(new Vector3(0, 0, 0));
         }
     }
 }

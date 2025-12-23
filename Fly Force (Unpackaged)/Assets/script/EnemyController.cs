@@ -43,7 +43,6 @@ public class EnemyController : TargetController
         FireBullet();
     }
 
-
     private void FireBullet()
     {
         if (player == null)
@@ -56,6 +55,7 @@ public class EnemyController : TargetController
             fireDelay -= 3f;
         }
     }
+
     private void Move()
     {
         if (player == null)
@@ -64,6 +64,7 @@ public class EnemyController : TargetController
         Vector3 dir = distance.normalized;
         rg2D.linearVelocity = dir * moveSpeed;
     }
+
     public void TakeDamage(int incomingDamage, string damageSource) 
     {
         hp -= incomingDamage;
@@ -105,6 +106,7 @@ public class EnemyController : TargetController
             OnDisappear();
         }
     }
+
     private void OnDead()
     {
         isDead = true;

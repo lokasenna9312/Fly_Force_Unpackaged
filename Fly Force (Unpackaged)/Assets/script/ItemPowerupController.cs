@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PowerupController : ItemController
+public class ItemPowerupController : ItemController
 {
 
     protected override void ItemGain()

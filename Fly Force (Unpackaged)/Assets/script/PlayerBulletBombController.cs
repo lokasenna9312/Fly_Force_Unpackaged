@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class BulletBombController : TardionProjectileController
+public class PlayerBulletBombController : PlayerTardionProjectileController
 {
+    public GameObject trail;
+    public Transform nozzle;
     private Rigidbody2D _momentum;
     public override Rigidbody2D momentum
     {
@@ -31,10 +33,9 @@ public class BulletBombController : TardionProjectileController
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        base.Start();
-        momentum = GetComponent<Rigidbody2D>();
         acceleration = 20000.0f;
         burstTime = 2.0f;
+        base.Start();
         if (playerController != null)
             damagePoint = playerController.BombDamage;
     }
@@ -42,5 +43,14 @@ public class BulletBombController : TardionProjectileController
     protected override void Update()
     {
         base.Update();
+        if (trail != null && time < burstTime)
+        {
+            Instantiate(trail, nozzle.position, Quaternion.identity);
+        }
+    }
+
+    protected new void FixedUpdate()
+    {
+        base.FixedUpdate();
     }
 }
