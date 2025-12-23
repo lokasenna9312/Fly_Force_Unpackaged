@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using Enemy;
+using Player;
 
 public class UIManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class UIManager : MonoBehaviour
     // Á¡¼ö
     [SerializeField] private Text scoreText;
     public int score { get; private set; }
-    [SerializeField] private Text highScoreText; 
+    [SerializeField] private Text highScoreText;
     public int highScore { get; private set; }
 
     // ¸ñ¼û
@@ -74,10 +75,10 @@ public class UIManager : MonoBehaviour
     {
         if (BlackOutCurtain_value > 0.0f)
         {
-            HideBlackOutCurtain();  
+            HideBlackOutCurtain();
         }
         if (currentBoss != null)
-        { 
+        {
             BossHpBarCheck();
         }
         if (isGameOver)
@@ -93,7 +94,7 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < bombs.Length; i++)
         {
-            if(i < bombCount)
+            if (i < bombCount)
             {
                 bombs[i].SetActive(true);
             }
@@ -144,8 +145,8 @@ public class UIManager : MonoBehaviour
         hpBar1.gameObject.SetActive(true);
         hpBar2.gameObject.SetActive(true);
 
-        hpBar1.fillAmount = (float) currentBoss.hp1 / MaxHp1;
-        hpBar2.fillAmount = (float) currentBoss.hp2 / MaxHp2;
+        hpBar1.fillAmount = (float)currentBoss.hp1 / MaxHp1;
+        hpBar2.fillAmount = (float)currentBoss.hp2 / MaxHp2;
     }
 
     public void TurnOffBossInterface()
@@ -203,7 +204,7 @@ public class UIManager : MonoBehaviour
     }
 
     private void RefreshScores()
-    { 
+    {
         scoreText.text = score.ToString();
         highScoreText.text = highScore.ToString();
     }

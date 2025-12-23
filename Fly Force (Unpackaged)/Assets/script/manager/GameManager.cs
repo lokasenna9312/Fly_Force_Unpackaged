@@ -1,4 +1,5 @@
 using UnityEngine;
+using Player;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
         if (lifeCount >= 0)
         {
             if (playerController == null && GameObject.FindWithTag("Player") == null)
-            { 
+            {
                 Debug.Log("Miraculous Victory! Player respawned and game goes on.");
                 CreatePlayer();
             }

@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+using Player;
 
 public class ItemController : MonoBehaviour
 {
@@ -26,7 +26,7 @@ public class ItemController : MonoBehaviour
         {
             playerController = collision.GetComponent<PlayerController>();
             if (playerController != null && playerController.isDead == false)
-            { 
+            {
                 ItemGain();
                 Destroy(gameObject);
             }

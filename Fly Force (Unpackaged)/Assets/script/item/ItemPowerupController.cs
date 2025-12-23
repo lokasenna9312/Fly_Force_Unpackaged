@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ItemPowerupController : ItemController
 {
 
@@ -18,5 +16,4 @@ public class ItemPowerupController : ItemController
             UIManager.instance.AddScore(base.score);
         }
     }
-
 }

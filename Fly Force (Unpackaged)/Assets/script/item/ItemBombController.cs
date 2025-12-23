@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ItemBombController : ItemController
 {
 
@@ -18,5 +16,4 @@ public class ItemBombController : ItemController
             UIManager.instance.AddScore(base.score);
         }
     }
-
 }
