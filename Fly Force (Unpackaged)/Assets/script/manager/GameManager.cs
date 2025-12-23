@@ -81,8 +81,6 @@ public class GameManager : MonoBehaviour
             playerPos = new Vector3(x, y, 0);
             GameObject player = Instantiate(playerPrefab, playerPos, Quaternion.identity);
             playerController = player.GetComponent<PlayerController>();
-            playerController.deadAnimFinished = false;
-            playerController.respawned = true;
             UIManager.instance.BombCheck(playerController.Bomb);
             UIManager.instance.ShieldAmmoGaugeController(playerController);
         }

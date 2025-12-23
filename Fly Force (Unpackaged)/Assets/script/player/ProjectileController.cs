@@ -5,11 +5,11 @@ namespace Player
 {
     public abstract class ProjectileController : MonoBehaviour
     {
-        public abstract int damagePoint { get; set; }
-        public GameObject player;
-        public PlayerController playerController;
-        public int hitCount = 0;
-        public abstract int missedShotPenalty { get; }
+        protected abstract int damagePoint { get; set; }
+        protected GameObject player;
+        protected PlayerController playerController;
+        private int hitCount = 0;
+        protected abstract int missedShotPenalty { get; }
 
         protected virtual void Start()
         {

@@ -304,11 +304,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dc87fb19ee7014f969a78af58e1519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletController
-  hitEffectPrefab: {fileID: 6803883172580027910, guid: 69d11f1f58f758748a2367600313dc30, type: 3}
-  hitCount: 0
   player: {fileID: 0}
   playerController: {fileID: 0}
-  _acceleration: 0
+  hitCount: 0
+  _deltaV: 30
 --- !u!50 &5029163420827363525
 Rigidbody2D:
   serializedVersion: 5

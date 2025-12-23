@@ -4,39 +4,37 @@ namespace Player
 {
     public class BulletBombController : TardionProjectileController
     {
-        public GameObject trail;
-        public Transform nozzle;
+        [SerializeField] private GameObject trail;
+        [SerializeField] private Transform nozzle;
         private Rigidbody2D _momentum;
-        public override Rigidbody2D momentum
+        protected override Rigidbody2D momentum
         {
             get => _momentum;
             set => _momentum = value;
         }
-        public float _acceleration;
-        public override float acceleration
+        [SerializeField] private float _acceleration;
+        protected override float acceleration
         {
             get => _acceleration;
             set => _acceleration = value;
         }
-        private float _burstTime;
-        public override float burstTime
+        [SerializeField] private float _burstTime;
+        protected override float burstTime
         {
             get => _burstTime;
             set => _burstTime = value;
         }
         private int _damage;
-        public override int damagePoint
+        protected override int damagePoint
         {
             get => _damage;
             set => _damage = value;
         }
-        public override int missedShotPenalty => 100;
+        protected override int missedShotPenalty => 100;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
         {
-            acceleration = 20000.0f;
-            burstTime = 2.0f;
             base.Start();
             if (playerController != null)
                 damagePoint = playerController.BombDamage;

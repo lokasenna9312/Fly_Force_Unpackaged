@@ -20,10 +20,10 @@ namespace Enemy
         int score;
 
         // 공격 위치
-        public Transform LAttackPos;
-        public Transform RAttackPos;
+        [SerializeField] private Transform LAttackPos;
+        [SerializeField] private Transform RAttackPos;
         // 총알
-        public GameObject bossBullet;
+        [SerializeField] private GameObject bossBullet;
 
         // 애니메이션 상태 확인용
         // -1 : 대기, 이동 반복
@@ -73,7 +73,7 @@ namespace Enemy
             }
             if (player == null && GameManager.instance.lifeCount >= 0)
             {
-                FindPlayer();
+                player = GameObject.FindGameObjectWithTag("Player");
             }
         }
 
@@ -131,10 +131,6 @@ namespace Enemy
             return incomingDamage - remainingDamage;
         }
 
-        public void FindPlayer()
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
         IEnumerator AttackRoutine()
         {
             yield return new WaitUntil(() => isMovingToItsPosition == false);
@@ -210,7 +206,7 @@ namespace Enemy
             Debug.Log("Boss is dying!");
             UIManager.instance.AddStageNo();
             UIManager.instance.AddScore(score);
-            EnemySpawnController.instance.BossIsKilled();
+            EnemySpawnManager.instance.BossIsKilled();
             Destroy(gameObject);
         }
     }

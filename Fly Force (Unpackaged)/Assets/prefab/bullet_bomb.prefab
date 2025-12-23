@@ -373,14 +373,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cb4b16b9a65ba4e931a0c8b04c5b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletBombController
-  hitEffectPrefab: {fileID: 6803883172580027910, guid: 90b5053ecf472214dbe54fc9151d395e, type: 3}
   player: {fileID: 0}
   playerController: {fileID: 0}
   hitCount: 0
   time: 0
   trail: {fileID: 6803883172580027910, guid: 75f24a0438c82ee48a0a612f85c55577, type: 3}
   nozzle: {fileID: 8053595732752687812}
-  _acceleration: 0
+  _acceleration: 20000
+  _burstTime: 2
 --- !u!1 &2746564271215782773
 GameObject:
   m_ObjectHideFlags: 0

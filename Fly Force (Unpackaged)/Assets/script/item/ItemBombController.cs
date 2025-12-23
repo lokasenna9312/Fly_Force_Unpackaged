@@ -4,16 +4,17 @@ public class ItemBombController : ItemController
     protected override void ItemGain()
     {
         base.ItemGain();
-        if (playerController.Bomb < 3 && playerController.currentShieldInstance == null)
-        {
+        if (playerController.currentShieldInstance == null)
+        { 
             SoundManager.instance.itemGainSound.Play();
-            playerController.Bomb++;
-            UIManager.instance.BombCheck(playerController.Bomb);
-        }
-        else if (playerController.Bomb >= 3 && playerController.currentShieldInstance == null)
-        {
-            SoundManager.instance.itemGainSound.Play();
-            UIManager.instance.AddScore(base.score);
+            if (playerController.Bomb < 3)
+            { 
+                playerController.GetBomb(1);
+            }
+            else if (playerController.Bomb >= 3)
+            {
+                UIManager.instance.AddScore(base.score);
+            }
         }
     }
 }

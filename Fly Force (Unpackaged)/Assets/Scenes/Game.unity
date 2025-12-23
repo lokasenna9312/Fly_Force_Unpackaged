@@ -936,7 +936,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 480885645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85b54f0157a8bcb49a5f1b4049ddeea7, type: 3}
+  m_Script: {fileID: 11500000, guid: 9105572cfccc6764cb706c072b1c449c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnController
   enemySpawns:
@@ -956,7 +956,6 @@ MonoBehaviour:
   - {fileID: 383373185649415789, guid: 5d267d74a9cc28e49be47a90cfc6cee1, type: 3}
   - {fileID: 4374953633913560491, guid: 7ad552f59dede984ea36cc00978a24a3, type: 3}
   bossGameObject: {fileID: 8521702591069800811, guid: 7f01f879d93a53e4d9efc753da9f438d, type: 3}
-  isBossSpawned: 0
 --- !u!4 &480885647
 Transform:
   m_ObjectHideFlags: 0

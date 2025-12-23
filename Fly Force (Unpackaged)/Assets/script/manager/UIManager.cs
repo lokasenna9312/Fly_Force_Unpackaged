@@ -216,6 +216,6 @@ public class UIManager : MonoBehaviour
         Destroy(UIManager.instance.gameObject);
         Destroy(GameManager.instance.gameObject);
         Destroy(SoundManager.instance.gameObject);
-        Destroy(EnemySpawnController.instance.gameObject);
+        Destroy(EnemySpawnManager.instance.gameObject);
     }
 }

@@ -203,7 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemycontroller
   spriteRenderer: {fileID: 8738973398282324794}
   currentColor: {r: 0, g: 0, b: 0, a: 0}
-  ememyBullet: {fileID: 2301198003574767160, guid: 1885884e39db5bb429c4bb2db0806393, type: 3}
+  enemyBullet: {fileID: 2301198003574767160, guid: 1885884e39db5bb429c4bb2db0806393, type: 3}
   item:
   - {fileID: 5558480267079299795, guid: d77671d28dd05bf4baabc173ae6f61aa, type: 3}
   - {fileID: 4722510281894302747, guid: 3c1240901196789498d7e7a8d567daa1, type: 3}

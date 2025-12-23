@@ -4,7 +4,7 @@ namespace Enemy
 {
     public class MinionController : TargetController
     {
-        public GameObject ememyBullet;
+        [SerializeField] private GameObject enemyBullet;
         GameObject player;
         Rigidbody2D rg2D;
         float fireDelay;
@@ -12,7 +12,7 @@ namespace Enemy
         Animator animator;
         float moveSpeed;
 
-        public GameObject[] item;
+        [SerializeField] private GameObject[] item;
         // HP
         public int hp { get; private set; }
         // 태그 임시 저장
@@ -53,7 +53,7 @@ namespace Enemy
             fireDelay += Time.deltaTime;
             if (fireDelay > 3f)
             {
-                Instantiate(ememyBullet, transform.position, Quaternion.identity);
+                Instantiate(enemyBullet, transform.position, Quaternion.identity);
                 fireDelay -= 3f;
             }
         }

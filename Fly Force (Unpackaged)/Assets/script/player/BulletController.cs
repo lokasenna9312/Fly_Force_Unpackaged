@@ -10,24 +10,23 @@ namespace Player
             get => _momentum;
             set => _momentum = value;
         }
-        public float _deltaV;
+        [SerializeField] private float _deltaV;
         public override float deltaV
         {
             get => _deltaV;
             set => _deltaV = value;
         }
         private int _damage;
-        public override int damagePoint
+        protected override int damagePoint
         {
             get => _damage;
             set => _damage = value;
         }
-        public override int missedShotPenalty => 10;
+        protected override int missedShotPenalty => 10;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
         {
-            deltaV = 30.0f;
             base.Start();
             if (playerController != null)
             {

@@ -5,11 +5,11 @@ namespace Enemy
 {
     public abstract class ProjectileController : MonoBehaviour
     {
-        public GameObject player;
-        public PlayerController playerController;
-        public Vector3 distance;
-        public Vector3 dir;
-        public float time;
+        protected GameObject player;
+        protected PlayerController playerController;
+        protected Vector3 distance;
+        protected Vector3 dir;
+        protected float time;
 
         protected virtual void Start()
         {

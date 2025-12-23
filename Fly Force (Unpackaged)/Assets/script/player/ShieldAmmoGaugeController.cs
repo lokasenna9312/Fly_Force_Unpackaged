@@ -7,7 +7,7 @@ namespace Player
     {
         PlayerController playerController;
 
-        public Image ShieldAmmoGauge;
+        [SerializeField] private Image ShieldAmmoGauge;
 
         private float _currentValue = 0.0f;
         public float currentValue

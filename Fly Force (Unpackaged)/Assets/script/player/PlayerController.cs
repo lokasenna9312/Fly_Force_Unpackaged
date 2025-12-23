@@ -13,30 +13,52 @@ namespace Player
         Vector3 temp;
 
         public GameObject[] prefabBullet;
-        float speed;
-
-        float fireDelay;
+        public float speed;
+        public float fireDelay;
         Animator animator;
 
         public bool isDead { get; private set; }
 
-        public int bulletLevel { get; private set; }
+        private int _bulletLevel;
+        public int bulletLevel
+        {
+            get => _bulletLevel;
+            private set
+            {
+                _bulletLevel = value;
+                switch (_bulletLevel)
+                {
+                    case 1: Damage = 1; break;
+                    case 2: Damage = 2; break;
+                    case 3: Damage = 3; break;
+                }
+            }
+        }
         public int Damage { get; private set; }
 
         public GameObject BulletBomb;
         public bool IsBulletBombPresent { get; private set; }
-        public int Bomb;
+        private int _bomb;
+        public int Bomb
+        {
+            get => _bomb;
+            private set
+            {
+                _bomb = value;
+                UIManager.instance.BombCheck(_bomb);
+            }
+        }
         public int BombDamage;
 
         public GameObject Shield;
-        public GameObject currentShieldInstance;
-        public float ShieldAmmo;
+        public GameObject currentShieldInstance { get; private set; }
+        public float ShieldAmmo { get; private set; }
         public int ShieldDamage;
         public float ShieldDuration;
         public int ShieldScorePenalty;
 
-        public bool respawned;
-        public bool deadAnimFinished;
+        public bool respawned { get; private set; }
+        public bool deadAnimFinished { get; private set; }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Start()
@@ -48,7 +70,6 @@ namespace Player
             isDead = false;
 
             bulletLevel = 1;
-            BulletProperties(bulletLevel);
 
             Bomb = 1;
             ShieldAmmo = 0.0f;
@@ -59,6 +80,9 @@ namespace Player
             BombDamage = 50;
             UIManager.instance.BombCheck(Bomb);
             IsBulletBombPresent = false;
+
+            respawned = true;
+            deadAnimFinished = false;
         }
 
         // Update is called once per frae
@@ -129,20 +153,13 @@ namespace Player
             else
                 fireDelay = 0.0f;
         }
-        public void BulletProperties(int bulletLevel)
-        {
-            switch (bulletLevel)
-            {
-                case 1: Damage = 1; break;
-                case 2: Damage = 2; break;
-                case 3: Damage = 3; break;
-            }
-        }
+
         public void IncreaseBulletLevel(int delta)
         {
             bulletLevel += delta;
             Debug.Log("Main gun has upgraded by " + bulletLevel);
         }
+
         public void FireBomb()
         {
             if (isDead == true) return;
@@ -155,10 +172,16 @@ namespace Player
                     Debug.Log("A bomb is on the way!");
                     GameObject go = Instantiate(BulletBomb, transform.position, Quaternion.identity);
                     Bomb--;
-                    UIManager.instance.BombCheck(Bomb);
                 }
             }
         }
+
+        public void GetBomb(int delta)
+        {
+            Bomb += delta;
+        }
+
+
         public void BulletBombDowned()
         {
             IsBulletBombPresent = false;

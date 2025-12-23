@@ -5,10 +5,10 @@ namespace Player
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class TardionProjectileController : ProjectileController
     {
-        public abstract float acceleration { get; set; }
-        public abstract Rigidbody2D momentum { get; set; }
-        public abstract float burstTime { get; set; }
-        public float time;
+        protected abstract float acceleration { get; set; }
+        protected abstract Rigidbody2D momentum { get; set; }
+        protected abstract float burstTime { get; set; }
+        protected float time;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
         {
