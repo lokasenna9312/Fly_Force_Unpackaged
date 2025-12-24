@@ -324,3 +324,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player.Ammunition.Bullet1
   _deltaV: 30
   _damage: 1
+  _missedShotPenalty: 10

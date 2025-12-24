@@ -5,48 +5,11 @@ namespace Player.Ammunition
 {
     public class BulletBomb1 : BulletBombController
     {
-        private ParticleSystem trailParticles;
-        private ParticleSystem.EmissionModule _emission;
         // Bullet properties are set in the Inspector.
-        private Rigidbody2D _momentum;
-        protected override Rigidbody2D momentum
-        {
-            get => _momentum;
-            set => _momentum = value;
-        }
-        [SerializeField] private float _acceleration;
-        protected override float acceleration
-        {
-            get => _acceleration;
-            set => _acceleration = value;
-        }
-        [SerializeField] private float _burstTime;
-        protected override float burstTime
-        {
-            get => _burstTime;
-            set => _burstTime = value;
-        }
-        private float _startMass;
-        protected override float startMass
-        {
-            get => _startMass;
-            set => _startMass = value;
-        }
-        [SerializeField] private float _fuelMass;
-        protected override float fuelMass
-        {
-            get => _fuelMass;
-            set => _fuelMass = value;
-        }
-        [SerializeField] private int _damage;
-        protected override int damagePoint
-        {
-            get => _damage;
-            set => _damage = value;
-        }
+        private ParticleSystem trailParticles;
+        private ParticleSystem.EmissionModule emission;
         [SerializeField] private GameObject trail;
         [SerializeField] private Transform nozzle;
-        protected override int missedShotPenalty => 100;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
@@ -58,8 +21,7 @@ namespace Player.Ammunition
 
                 if (trailParticles != null)
                 {
-                    var main = trailParticles.main;
-                    _emission = trailParticles.emission;
+                    emission = trailParticles.emission;
                     trailParticles.Play();
                 }
             }
@@ -73,7 +35,7 @@ namespace Player.Ammunition
             {
                 trailParticles.transform.position = nozzle.position;
                 trailParticles.transform.rotation = nozzle.rotation;
-                _emission.enabled = (time < burstTime);
+                emission.enabled = (time < burstTime);
             }
         }
 
@@ -82,24 +44,13 @@ namespace Player.Ammunition
             base.FixedUpdate();
         }
 
-        public void DetachTrail()
-        {
-            if (trailParticles != null)
-            {
-                trailParticles.transform.SetParent(null);
-                var emission = trailParticles.emission;
-                emission.enabled = false;
-                trailParticles = null;
-            }
-        }
-
         protected override void OnDestroy()
         {
             if (trailParticles != null)
             {
                 trailParticles.Stop();
             }
-                base.OnDestroy();
+            base.OnDestroy();
         }
     }
 }

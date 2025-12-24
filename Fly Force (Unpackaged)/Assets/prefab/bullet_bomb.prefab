@@ -377,6 +377,7 @@ MonoBehaviour:
   _burstTime: 1
   _fuelMass: 200
   _damage: 50
+  _missedShotPenalty: 100
   trail: {fileID: 6803883172580027910, guid: 75f24a0438c82ee48a0a612f85c55577, type: 3}
   nozzle: {fileID: 8053595732752687812}
 --- !u!1 &2746564271215782773

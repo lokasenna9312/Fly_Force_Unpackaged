@@ -1,5 +1,6 @@
-using UnityEngine;
 using Enemy;
+using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Player
 {
@@ -43,7 +44,6 @@ namespace Player
                 {
                     playerController.RemoveShield();
                 }
-                Destroy(gameObject);
             }
         }
     }

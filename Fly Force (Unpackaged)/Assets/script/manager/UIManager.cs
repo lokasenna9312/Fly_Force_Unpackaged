@@ -110,7 +110,6 @@ public class UIManager : MonoBehaviour
         if (shieldGaugeController != null)
         {
             shieldAmmoGauge.SetActive(true);
-            shieldGaugeController.SetPlayerController(pc);
         }
     }
 

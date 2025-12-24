@@ -12,22 +12,23 @@ namespace Player
         public Vector3 limitMin;
         Vector3 temp;
 
-        public GameObject[] prefabBullet;
         public float speed;
         public float fireDelay;
         Animator animator;
 
+        ShieldAmmoGaugeController shieldAmmoGaugeController;
+
         public bool isDead { get; private set; }
 
+        [SerializeField] private GameObject[] prefabBullet;
         private int _bulletLevel;
         public int bulletLevel
         {
             get => _bulletLevel;
             private set => _bulletLevel = value;
         }
-        public int Damage { get; private set; }
 
-        public GameObject BulletBomb;
+        [SerializeField] private GameObject BulletBomb;
         public bool IsBulletBombPresent { get; private set; }
         private int _bomb;
         public int Bomb
@@ -39,11 +40,9 @@ namespace Player
                 UIManager.instance.BombCheck(_bomb);
             }
         }
-        public int BombDamage;
 
         public GameObject Shield;
         public GameObject currentShieldInstance { get; private set; }
-        public float ShieldAmmo { get; private set; }
         public int ShieldDamage;
         public float ShieldDuration;
         public int ShieldScorePenalty;
@@ -63,17 +62,17 @@ namespace Player
             bulletLevel = 1;
 
             Bomb = 1;
-            ShieldAmmo = 0.0f;
             currentShieldInstance = null;
+            shieldAmmoGaugeController = UIManager.instance.shieldGaugeController;
             ShieldScorePenalty = 100;
             ShieldDamage = 100;
 
-            BombDamage = 50;
             UIManager.instance.BombCheck(Bomb);
             IsBulletBombPresent = false;
 
             respawned = true;
             deadAnimFinished = false;
+
         }
 
         // Update is called once per frae
@@ -83,9 +82,9 @@ namespace Player
             if (isDead == false)
             {
                 Move();
+                ShieldModule();
                 FireBullet();
                 FireBomb();
-                ShieldModule();
             }
             if (isDead == true) MoveByInertia();
         }
@@ -176,24 +175,14 @@ namespace Player
         public void BulletBombDowned()
         {
             IsBulletBombPresent = false;
+            Debug.Log("Bomb cleared!");
         }
 
         public void ShieldModule()
         {
-            {
-                if (ShieldAmmo >= 0.0f && ShieldAmmo < 1.0f && currentShieldInstance == null)
-                {
-                    ShieldAmmo += Time.deltaTime * 0.1f;
-                    Debug.Log("Shield Charged " + ShieldAmmo * 100 + "%");
-                }
-                if (ShieldAmmo >= 1.0f)
-                    ShieldAmmo = -1.0f;
-            }
-            if (ShieldAmmo == -1.0f)
-                Debug.Log("Shield is Fully Charged!");
             if (Input.GetButtonDown("Shield"))
             {
-                if (currentShieldInstance == null && ShieldAmmo == -1.0f)
+                if (currentShieldInstance == null && shieldAmmoGaugeController.ShieldAmmo == 1.0f)
                 {
                     Debug.Log("Shield On!");
                     ShieldDuration = 3.0f;
@@ -225,7 +214,7 @@ namespace Player
             UIManager.instance.AddScore(-shieldScorePenalty);
             currentShieldInstance = Instantiate(Shield, transform.position, Quaternion.identity);
             currentShieldInstance.transform.parent = transform;
-            ShieldAmmo = 0.0f;
+            shieldAmmoGaugeController.ShieldAmmo = 0.0f;
             ShieldDuration = duration;
         }
         void DestroyShield()
@@ -240,10 +229,10 @@ namespace Player
             if (currentShieldInstance != null)
             {
                 Destroy(currentShieldInstance);
+                currentShieldInstance = null;
                 SoundManager.instance.ShieldOffSound.Play();
+                Debug.Log("Shield was nullified!");
             }
-            currentShieldInstance = null;
-            Debug.Log("Shield was nullified!");
         }
 
         public void RespawnShield()
@@ -268,7 +257,7 @@ namespace Player
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("enemyBullet") || collision.CompareTag("enemy") || collision.CompareTag("ItemDropper"))
+            if (collision.CompareTag("enemyBullet") || collision.CompareTag("enemy") || collision.CompareTag("ItemDropper") || collision.CompareTag("Boss"))
             {
                 if (currentShieldInstance != null)
                 {
@@ -281,11 +270,6 @@ namespace Player
                     return;
                 }
                 Debug.Log("Bullet hit, Shield is Off. Player Dead.");
-                if (currentShieldInstance != null)
-                {
-                    Destroy(currentShieldInstance);
-                    currentShieldInstance = null;
-                }
                 isDead = true;
                 animator.SetInteger("State", 1);
                 GetComponent<Collider2D>().enabled = false;

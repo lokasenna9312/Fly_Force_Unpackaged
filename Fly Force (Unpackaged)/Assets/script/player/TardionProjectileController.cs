@@ -12,17 +12,12 @@ namespace Player
         protected abstract float fuelMass { get; set; }
         protected float time { get; set; }
 
-        protected override void Awake()
-        {
-            if (momentum == null) momentum = GetComponent<Rigidbody2D>();
-            startMass = momentum.mass;
-
-        }
-
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
         {
             base.Start();
+            if (momentum == null) momentum = GetComponent<Rigidbody2D>();
+            startMass = momentum.mass;
             time = 0.0f;
         }
 

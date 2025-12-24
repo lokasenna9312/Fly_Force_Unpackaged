@@ -5,21 +5,20 @@ namespace Player
 {
     public class ShieldAmmoGaugeController : MonoBehaviour
     {
-        PlayerController playerController;
+        private PlayerController playerController;
 
         [SerializeField] private Image ShieldAmmoGauge;
 
-        private float _currentValue = 0.0f;
-        public float currentValue
+        private float _shieldAmmo = 0.0f;
+        public float ShieldAmmo
         {
-            get { return _currentValue; }
+            get { return _shieldAmmo; }
             set
             {
-                _currentValue = value;
+                _shieldAmmo = value;
                 UpdateBarUI();
             }
         }
-
         private float _maxValue = 1.0f;
         public float maxValue
         {
@@ -31,26 +30,30 @@ namespace Player
             }
         }
 
-        private float FillRatio => Mathf.Clamp01(currentValue / maxValue);
+        private float FillRatio => Mathf.Clamp01(ShieldAmmo / maxValue);
 
         void Start()
         {
-
+            playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         }
 
         void Update()
         {
-            if (playerController != null)
-            {
-                currentValue = playerController.ShieldAmmo;
-                ChangeValue(currentValue);
-            }
+            ShieldAmmoSetter();
         }
-        public void SetPlayerController(PlayerController pc)
+
+        void ShieldAmmoSetter()
         {
-            playerController = pc;
-            currentValue = playerController.ShieldAmmo;
-            UpdateBarUI();
+            if (ShieldAmmo >= 0.0f && ShieldAmmo < 1.0f && playerController.currentShieldInstance == null)
+            {
+                ShieldAmmo += Time.deltaTime * 0.1f;
+                Debug.Log("Shield Charged " + ShieldAmmo * 100 + "%");
+            }
+            if (ShieldAmmo >= 1.0f)
+            { 
+                ShieldAmmo = 1.0f;
+                Debug.Log("Shield is Fully Charged!");
+            }
         }
         public void UpdateBarUI()
         {
@@ -58,19 +61,6 @@ namespace Player
             {
                 ShieldAmmoGauge.fillAmount = FillRatio;
             }
-        }
-
-        public void ChangeValue(float amount)
-        {
-            if (amount >= 0.0f && amount < 1.0f)
-            {
-                currentValue = Mathf.Clamp(amount, 0f, maxValue);
-            }
-            if (amount < 0.0f)
-            {
-                currentValue = 1.0f;
-            }
-            UpdateBarUI();
         }
     }
 }

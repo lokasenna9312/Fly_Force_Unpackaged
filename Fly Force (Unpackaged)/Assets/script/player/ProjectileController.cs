@@ -5,24 +5,28 @@ namespace Player
 {
     public abstract class ProjectileController : MonoBehaviour
     {
-        protected abstract int damagePoint { get; set; }
         protected GameObject player;
         protected PlayerController playerController;
-        private int hitCount = 0;
-        protected abstract int missedShotPenalty { get; }
-        private bool overrun;
-
-        protected virtual void Awake()
+        [SerializeField] private int _damage;
+        protected int damagePoint
         {
-
+            get => _damage;
+            set => _damage = value;
         }
+        [SerializeField] private int _missedShotPenalty;
+        protected int missedShotPenalty
+        {
+            get => _missedShotPenalty;
+            set => _missedShotPenalty = value;
+        }
+        private int hitCount = 0;
+        private bool overrun = false;
 
         protected virtual void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
                 playerController = player.GetComponent<PlayerController>();
-            overrun = false;
         }
 
         protected virtual void Update()
