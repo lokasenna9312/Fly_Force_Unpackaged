@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Android;
 
 namespace Player.Ammunition
 {
     public class BulletBomb1 : BulletBombController
     {
+        private ParticleSystem trailParticles;
+        private ParticleSystem.EmissionModule _emission;
         // Bullet properties are set in the Inspector.
         private Rigidbody2D _momentum;
         protected override Rigidbody2D momentum
@@ -23,6 +26,18 @@ namespace Player.Ammunition
             get => _burstTime;
             set => _burstTime = value;
         }
+        private float _startMass;
+        protected override float startMass
+        {
+            get => _startMass;
+            set => _startMass = value;
+        }
+        [SerializeField] private float _fuelMass;
+        protected override float fuelMass
+        {
+            get => _fuelMass;
+            set => _fuelMass = value;
+        }
         [SerializeField] private int _damage;
         protected override int damagePoint
         {
@@ -37,21 +52,54 @@ namespace Player.Ammunition
         protected override void Start()
         {
             base.Start();
+            if (trail != null && nozzle != null)
+            {
+                trailParticles = Instantiate(trail, nozzle.position, nozzle.rotation).GetComponent<ParticleSystem>();
+
+                if (trailParticles != null)
+                {
+                    var main = trailParticles.main;
+                    _emission = trailParticles.emission;
+                    trailParticles.Play();
+                }
+            }
         }
 
         // Update is called once per frame
-        protected override void Update()
+        protected override void Update()    
         {
             base.Update();
-            if (trail != null && time < burstTime)
+            if (trailParticles != null)
             {
-                Instantiate(trail, nozzle.position, Quaternion.identity);
+                trailParticles.transform.position = nozzle.position;
+                trailParticles.transform.rotation = nozzle.rotation;
+                _emission.enabled = (time < burstTime);
             }
         }
 
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
+        }
+
+        public void DetachTrail()
+        {
+            if (trailParticles != null)
+            {
+                trailParticles.transform.SetParent(null);
+                var emission = trailParticles.emission;
+                emission.enabled = false;
+                trailParticles = null;
+            }
+        }
+
+        protected override void OnDestroy()
+        {
+            if (trailParticles != null)
+            {
+                trailParticles.Stop();
+            }
+                base.OnDestroy();
         }
     }
 }

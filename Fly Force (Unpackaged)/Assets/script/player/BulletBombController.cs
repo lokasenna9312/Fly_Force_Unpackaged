@@ -4,11 +4,6 @@ namespace Player
 {
     public abstract class BulletBombController : TardionProjectileController
     {
-        protected override float acceleration { get; set; }
-        protected override Rigidbody2D momentum { get; set; }
-        protected override float burstTime { get; set; }
-        protected override int damagePoint { get; set; }
-
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
         {
@@ -23,6 +18,15 @@ namespace Player
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (playerController != null)
+            {
+                Debug.Log("Bomb cleared!");
+                playerController.BulletBombDowned();
+            }
         }
     }
 }

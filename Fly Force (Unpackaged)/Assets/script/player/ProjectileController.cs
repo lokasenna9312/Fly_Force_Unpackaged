@@ -9,14 +9,20 @@ namespace Player
         protected GameObject player;
         protected PlayerController playerController;
         private int hitCount = 0;
-        private bool isMissed = false;
         protected abstract int missedShotPenalty { get; }
+        private bool overrun;
+
+        protected virtual void Awake()
+        {
+
+        }
 
         protected virtual void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
                 playerController = player.GetComponent<PlayerController>();
+            overrun = false;
         }
 
         protected virtual void Update()
@@ -26,10 +32,9 @@ namespace Player
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
-            if (!collision.CompareTag("Player"))
-                hitCount++;
             if (collision.CompareTag("enemy") || collision.CompareTag("ItemDropper"))
             {
+                hitCount++;
                 UIManager.instance.AddScore(10);
                 MinionController collidedEnemy = collision.GetComponent<MinionController>();
                 if (collidedEnemy != null)
@@ -44,6 +49,7 @@ namespace Player
             }
             if (collision.CompareTag("Boss"))
             {
+                hitCount++;
                 UIManager.instance.AddScore(10);
                 BossController collidedBoss = collision.GetComponent<BossController>();
                 if (collidedBoss != null)
@@ -66,22 +72,12 @@ namespace Player
         {
             if (transform.position.y > 20.0f)
             {
-                if (hitCount == 0 && isMissed == false)
+                if (hitCount == 0 && overrun == false)
                 {
                     UIManager.instance.AddScore(-missedShotPenalty);
-                    isMissed = true;
+                    overrun = true;
                 }
-            }
-            if (transform.position.y > 40.0f)
-                Destroy(gameObject);
-        }
-
-        protected void OnDestroy()
-        {
-            if (gameObject.CompareTag("BulletBomb") && playerController != null)
-            {
-                Debug.Log("Bomb cleared!");
-                playerController.BulletBombDowned();
+                if (transform.position.y > 40.0f) Destroy(gameObject);
             }
         }
     }

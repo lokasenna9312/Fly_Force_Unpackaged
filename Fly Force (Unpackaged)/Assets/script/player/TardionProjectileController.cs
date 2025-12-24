@@ -8,12 +8,20 @@ namespace Player
         protected abstract float acceleration { get; set; }
         protected abstract Rigidbody2D momentum { get; set; }
         protected abstract float burstTime { get; set; }
+        protected abstract float startMass { get; set; }
+        protected abstract float fuelMass { get; set; }
         protected float time { get; set; }
+
+        protected override void Awake()
+        {
+            if (momentum == null) momentum = GetComponent<Rigidbody2D>();
+            startMass = momentum.mass;
+
+        }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
         {
             base.Start();
-            if (momentum == null) momentum = GetComponent<Rigidbody2D>();
             time = 0.0f;
         }
 
@@ -25,21 +33,26 @@ namespace Player
 
         protected virtual void FixedUpdate()
         {
-            if (momentum != null) ApplyForce(burstTime);
             time += Time.fixedDeltaTime;
+            if (momentum != null)
+            {
+                ApplyForce(burstTime);
+                momentum.mass = Discharged(startMass, fuelMass);
+            }
+            Debug.Log("Time: " + time + " Mass: " + momentum.mass);
         }
 
         void ApplyForce(float burstTime)
         {
-            if (momentum == null) return;
-            if (time < burstTime)
-            {
-                momentum.AddForce(Vector3.up * acceleration);
-            }
-            else
-            {
-                time = burstTime;
-            }
+            if (momentum == null) momentum = GetComponent<Rigidbody2D>();
+            if (time < burstTime) momentum.AddForce(Vector3.up * acceleration);
+        }
+
+        float Discharged(float startMass, float fuelMass)
+        {
+            float burnRatio = Mathf.Clamp01(time / burstTime);
+            float massOnTime = startMass - (fuelMass * burnRatio);
+            return Mathf.Max(massOnTime, startMass - fuelMass);
         }
     }
 }
