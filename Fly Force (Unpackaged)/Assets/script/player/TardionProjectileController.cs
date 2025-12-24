@@ -18,6 +18,7 @@ namespace Player
             startMass = momentum.mass;
 
         }
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
         {
@@ -44,7 +45,6 @@ namespace Player
 
         void ApplyForce(float burstTime)
         {
-            if (momentum == null) momentum = GetComponent<Rigidbody2D>();
             if (time < burstTime) momentum.AddForce(Vector3.up * acceleration);
         }
 
