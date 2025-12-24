@@ -6,6 +6,7 @@ namespace Player
     public class ShieldAmmoGaugeController : MonoBehaviour
     {
         private PlayerController playerController;
+        private ShieldController shield;
 
         [SerializeField] private Image ShieldAmmoGauge;
 
@@ -13,7 +14,7 @@ namespace Player
         public float ShieldAmmo
         {
             get { return _shieldAmmo; }
-            set
+            private set
             {
                 _shieldAmmo = value;
                 UpdateBarUI();
@@ -23,7 +24,7 @@ namespace Player
         public float maxValue
         {
             get { return _maxValue; }
-            set
+            private set
             {
                 _maxValue = value;
                 UpdateBarUI();
@@ -35,6 +36,7 @@ namespace Player
         void Start()
         {
             playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            if (playerController.isShieldActive == true) shield = GameObject.FindWithTag("Shield").GetComponent<ShieldController>();
         }
 
         void Update()
@@ -44,7 +46,7 @@ namespace Player
 
         void ShieldAmmoSetter()
         {
-            if (ShieldAmmo >= 0.0f && ShieldAmmo < 1.0f && playerController.currentShieldInstance == null)
+            if (ShieldAmmo >= 0.0f && ShieldAmmo < 1.0f && playerController.isShieldActive == false)
             {
                 ShieldAmmo += Time.deltaTime * 0.1f;
                 Debug.Log("Shield Charged " + ShieldAmmo * 100 + "%");
@@ -55,6 +57,12 @@ namespace Player
                 Debug.Log("Shield is Fully Charged!");
             }
         }
+
+        public void ShieldAmmoForceSetter(float amount)
+        {
+            ShieldAmmo = amount;
+        }
+
         public void UpdateBarUI()
         {
             if (ShieldAmmoGauge != null)

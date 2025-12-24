@@ -16,7 +16,9 @@ namespace Player
         public float fireDelay;
         Animator animator;
 
+        ShieldController shieldController;
         ShieldAmmoGaugeController shieldAmmoGaugeController;
+        public int ShieldScorePenalty;
 
         public bool isDead { get; private set; }
 
@@ -42,10 +44,7 @@ namespace Player
         }
 
         public GameObject Shield;
-        public GameObject currentShieldInstance { get; private set; }
-        public int ShieldDamage;
-        public float ShieldDuration;
-        public int ShieldScorePenalty;
+        public bool isShieldActive { get; private set; }
 
         public bool respawned { get; private set; }
         public bool deadAnimFinished { get; private set; }
@@ -61,28 +60,26 @@ namespace Player
 
             bulletLevel = 1;
 
-            Bomb = 1;
-            currentShieldInstance = null;
             shieldAmmoGaugeController = UIManager.instance.shieldGaugeController;
             ShieldScorePenalty = 100;
-            ShieldDamage = 100;
+            isShieldActive = false;
 
+            Bomb = 1;
             UIManager.instance.BombCheck(Bomb);
             IsBulletBombPresent = false;
 
             respawned = true;
             deadAnimFinished = false;
-
         }
 
         // Update is called once per frae
         private void Update()
         {
-            RespawnShield();
             if (isDead == false)
             {
                 Move();
                 ShieldModule();
+                RespawnShield();
                 FireBullet();
                 FireBomb();
             }
@@ -130,13 +127,15 @@ namespace Player
         public void FireBullet()
         {
             if (isDead == true) return;
-            if (Input.GetButton("Gun") && currentShieldInstance == null)
+            if (Input.GetButton("Gun") && isShieldActive == false)
             {
                 Debug.Log("Shoot");
                 fireDelay += Time.deltaTime;
                 if (fireDelay > 0.0f)
                 {
-                    Instantiate(prefabBullet[bulletLevel - 1], transform.position, Quaternion.identity);
+                    GameObject go = Instantiate(prefabBullet[bulletLevel - 1], transform.position, Quaternion.identity);
+                    ProjectileController projectileController = go.GetComponent <ProjectileController>();
+                    projectileController.Initializer(this);
                     fireDelay -= 0.3f;
                 }
             }
@@ -153,7 +152,7 @@ namespace Player
         public void FireBomb()
         {
             if (isDead == true) return;
-            if (Input.GetButtonDown("Bomb") && currentShieldInstance == null && IsBulletBombPresent == false)
+            if (Input.GetButtonDown("Bomb") && isShieldActive == false && IsBulletBombPresent == false)
             {
                 Debug.Log("Bomb");
                 if (Bomb >= 1)
@@ -161,6 +160,8 @@ namespace Player
                     IsBulletBombPresent = true;
                     Debug.Log("A bomb is on the way!");
                     GameObject go = Instantiate(BulletBomb, transform.position, Quaternion.identity);
+                    ProjectileController projectileController = go.GetComponent<ProjectileController>();
+                    projectileController.Initializer(this);
                     Bomb--;
                 }
             }
@@ -182,56 +183,20 @@ namespace Player
         {
             if (Input.GetButtonDown("Shield"))
             {
-                if (currentShieldInstance == null && shieldAmmoGaugeController.ShieldAmmo == 1.0f)
+                if (isShieldActive == false && shieldAmmoGaugeController.ShieldAmmo == 1.0f)
                 {
                     Debug.Log("Shield On!");
-                    ShieldDuration = 3.0f;
-                    ShieldOn(-ShieldScorePenalty, ShieldDuration);
+                    ShieldOn(100, 3.0f);
+                    shieldAmmoGaugeController.ShieldAmmoForceSetter(0.0f);
                 }
-                else if (currentShieldInstance != null)
+                else if (isShieldActive == true)
                 {
-                    DestroyShield();
-                    SoundManager.instance.ShieldOffSound.Play();
-                }
-            }
-            if (currentShieldInstance != null)
-            {
-                if (ShieldDuration > 0.0f)
-                {
-                    ShieldDuration -= Time.deltaTime * 1.0f;
-                    Debug.Log("Shield Duration: " + ShieldDuration + " seconds");
-                    if (ShieldDuration <= 0.0f)
-                    {
-                        DestroyShield();
+                    if(shieldController != null)
+                    { 
+                        shieldController.DestroyShield();
                         SoundManager.instance.ShieldOffSound.Play();
                     }
                 }
-            }
-        }
-
-        public void ShieldOn(int shieldScorePenalty, float duration)
-        {
-            UIManager.instance.AddScore(-shieldScorePenalty);
-            currentShieldInstance = Instantiate(Shield, transform.position, Quaternion.identity);
-            currentShieldInstance.transform.parent = transform;
-            shieldAmmoGaugeController.ShieldAmmo = 0.0f;
-            ShieldDuration = duration;
-        }
-        void DestroyShield()
-        {
-            Destroy(currentShieldInstance);
-            currentShieldInstance = null;
-            Debug.Log("Shield Off!");
-        }
-
-        public void RemoveShield()
-        {
-            if (currentShieldInstance != null)
-            {
-                Destroy(currentShieldInstance);
-                currentShieldInstance = null;
-                SoundManager.instance.ShieldOffSound.Play();
-                Debug.Log("Shield was nullified!");
             }
         }
 
@@ -240,10 +205,24 @@ namespace Player
             if (respawned == true)
             {
                 Debug.Log("Just Respawned!");
-                ShieldDuration = 1.0f;
-                ShieldOn(0, ShieldDuration);
+                ShieldOn(100, 1.0f);
                 respawned = false;
             }
+        }
+
+        public void ShieldOn(int damage, float duration)
+        {
+            GameObject go = Instantiate(Shield, transform.position, Quaternion.identity);
+            shieldController = go.GetComponent<ShieldController>();
+            shieldController.Initializer(this);
+            shieldController.DamageForceSetter(damage);
+            shieldController.DurationForceSetter(duration);
+            SetShieldActiveState(true);
+        }
+
+        public void SetShieldActiveState(bool state)
+        {
+            isShieldActive = state;
         }
 
         private void OnDrawGizmos()
@@ -259,7 +238,7 @@ namespace Player
         {
             if (collision.CompareTag("enemyBullet") || collision.CompareTag("enemy") || collision.CompareTag("ItemDropper") || collision.CompareTag("Boss"))
             {
-                if (currentShieldInstance != null)
+                if (isShieldActive == true)
                 {
                     Debug.Log("Bullet hit, but Shield is Active. Ignoring damage.");
                     return;
@@ -284,7 +263,6 @@ namespace Player
             deadAnimFinished = true;
             Destroy(gameObject);
             if (GameManager.instance.lifeCount >= 0) GameManager.instance.CreatePlayer();
-            GetComponent<Collider2D>().enabled = true;
             UIManager.instance.LifeCheck(GameManager.instance.lifeCount);
         }
     }

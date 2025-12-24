@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject playerPrefab;
     public PlayerController playerController;
+    public ShieldAmmoGaugeController shieldAmmoGaugeController;
     public Vector3 playerPos;
     public int lifeCount { get; private set; }
 
@@ -81,6 +82,8 @@ public class GameManager : MonoBehaviour
             playerPos = new Vector3(x, y, 0);
             GameObject player = Instantiate(playerPrefab, playerPos, Quaternion.identity);
             playerController = player.GetComponent<PlayerController>();
+            shieldAmmoGaugeController = UIManager.instance.shieldAmmoGauge.GetComponent<ShieldAmmoGaugeController>();
+            shieldAmmoGaugeController.ShieldAmmoForceSetter(0.0f);
             UIManager.instance.BombCheck(playerController.Bomb);
             UIManager.instance.ShieldAmmoGaugeController(playerController);
         }

@@ -4,7 +4,7 @@ public class ItemPowerupController : ItemController
     protected override void ItemGain()
     {
         base.ItemGain();
-        if (playerController.currentShieldInstance == null)
+        if (playerController.isShieldActive == false)
         {
             SoundManager.instance.itemGainSound.Play();
             if (playerController.bulletLevel < 3)

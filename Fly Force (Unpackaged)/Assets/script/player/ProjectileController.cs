@@ -24,14 +24,18 @@ namespace Player
 
         protected virtual void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-                playerController = player.GetComponent<PlayerController>();
+
         }
 
         protected virtual void Update()
         {
             DestroyOverrunProjectile();
+        }
+
+        public void Initializer(PlayerController owner)
+        {
+            playerController = owner;
+            player = owner.gameObject;
         }
 
         protected void OnTriggerEnter2D(Collider2D collision)

@@ -5,6 +5,7 @@ public class ItemController : MonoBehaviour
 {
     protected GameObject player;
     protected PlayerController playerController;
+    protected ShieldController shield;
     protected float speed = 10.0f;
     protected int score = 100;
 
@@ -40,7 +41,7 @@ public class ItemController : MonoBehaviour
     {
         if (playerController == null)
         {
-            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            
         }
     }
 }
