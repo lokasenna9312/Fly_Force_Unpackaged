@@ -5,8 +5,8 @@ namespace Player
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class ImpulseProjectileController : ProjectileController
     {
-        public abstract float deltaV { get; set; }
-        public abstract Rigidbody2D momentum { get; set; }
+        protected abstract float deltaV { get; set; }
+        protected abstract Rigidbody2D momentum { get; set; }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()

@@ -8,7 +8,7 @@ namespace Player
         protected abstract float acceleration { get; set; }
         protected abstract Rigidbody2D momentum { get; set; }
         protected abstract float burstTime { get; set; }
-        protected float time;
+        protected float time { get; set; }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
         {
@@ -23,7 +23,7 @@ namespace Player
             base.Update();
         }
 
-        protected void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             if (momentum != null) ApplyForce(burstTime);
             time += Time.fixedDeltaTime;

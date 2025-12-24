@@ -9,6 +9,7 @@ namespace Player
         protected GameObject player;
         protected PlayerController playerController;
         private int hitCount = 0;
+        private bool isMissed = false;
         protected abstract int missedShotPenalty { get; }
 
         protected virtual void Start()
@@ -25,7 +26,8 @@ namespace Player
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
-            hitCount++;
+            if (!collision.CompareTag("Player"))
+                hitCount++;
             if (collision.CompareTag("enemy") || collision.CompareTag("ItemDropper"))
             {
                 UIManager.instance.AddScore(10);
@@ -64,9 +66,10 @@ namespace Player
         {
             if (transform.position.y > 20.0f)
             {
-                if (hitCount == 0)
+                if (hitCount == 0 && isMissed == false)
                 {
                     UIManager.instance.AddScore(-missedShotPenalty);
+                    isMissed = true;
                 }
             }
             if (transform.position.y > 40.0f)

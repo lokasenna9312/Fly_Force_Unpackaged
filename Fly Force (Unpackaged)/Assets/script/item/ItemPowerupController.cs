@@ -7,11 +7,11 @@ public class ItemPowerupController : ItemController
         if (playerController.currentShieldInstance == null)
         {
             SoundManager.instance.itemGainSound.Play();
-            if (playerController.Damage < 3)
+            if (playerController.bulletLevel < 3)
             {
                 playerController.IncreaseBulletLevel(1);
             }
-            else if (playerController.Damage >= 3)
+            else if (playerController.bulletLevel >= 3)
             {
                 UIManager.instance.AddScore(base.score);
             }

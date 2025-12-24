@@ -141,8 +141,8 @@ GameObject:
   - component: {fileID: 8345568937020821527}
   - component: {fileID: 223549664250123713}
   - component: {fileID: 3487137392554848630}
-  - component: {fileID: -2846520352961379241}
   - component: {fileID: 5029163420827363525}
+  - component: {fileID: 4498340358581616189}
   m_Layer: 0
   m_Name: bullet3
   m_TagString: Bullet
@@ -292,22 +292,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4.060004, y: 4.324272}
   m_EdgeRadius: 0
---- !u!114 &-2846520352961379241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8659308786222066922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97dc87fb19ee7014f969a78af58e1519, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BulletController
-  player: {fileID: 0}
-  playerController: {fileID: 0}
-  hitCount: 0
-  _deltaV: 30
 --- !u!50 &5029163420827363525
 Rigidbody2D:
   serializedVersion: 5
@@ -335,3 +319,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &4498340358581616189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8659308786222066922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61aab28fdfd71f749a6b69ebdbc5967e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Ammunition.Bullet3
+  _deltaV: 30
+  _damage: 3

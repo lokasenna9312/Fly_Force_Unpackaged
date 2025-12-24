@@ -23,16 +23,7 @@ namespace Player
         public int bulletLevel
         {
             get => _bulletLevel;
-            private set
-            {
-                _bulletLevel = value;
-                switch (_bulletLevel)
-                {
-                    case 1: Damage = 1; break;
-                    case 2: Damage = 2; break;
-                    case 3: Damage = 3; break;
-                }
-            }
+            private set => _bulletLevel = value;
         }
         public int Damage { get; private set; }
 

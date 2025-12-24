@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 1504309390685243221}
   - component: {fileID: 2290314613974233042}
   - component: {fileID: 2739330137333702974}
-  - component: {fileID: 2000073800167307652}
+  - component: {fileID: 2503741372784214391}
   m_Layer: 0
   m_Name: bullet_bomb
   m_TagString: BulletBomb
@@ -361,7 +361,7 @@ PolygonCollider2D:
       - {x: -0.3125, y: -3.3125}
       - {x: -0.3125, y: -3.875}
   m_UseDelaunayMesh: 0
---- !u!114 &2000073800167307652
+--- !u!114 &2503741372784214391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -370,17 +370,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2737479303613629948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81cb4b16b9a65ba4e931a0c8b04c5b72, type: 3}
+  m_Script: {fileID: 11500000, guid: d8e1c1f8ac27922438cf612c6b4cc74f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BulletBombController
-  player: {fileID: 0}
-  playerController: {fileID: 0}
-  hitCount: 0
-  time: 0
-  trail: {fileID: 6803883172580027910, guid: 75f24a0438c82ee48a0a612f85c55577, type: 3}
-  nozzle: {fileID: 8053595732752687812}
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Ammunition.BulletBomb1
   _acceleration: 20000
   _burstTime: 2
+  _damage: 50
+  trail: {fileID: 6803883172580027910, guid: 75f24a0438c82ee48a0a612f85c55577, type: 3}
+  nozzle: {fileID: 8053595732752687812}
 --- !u!1 &2746564271215782773
 GameObject:
   m_ObjectHideFlags: 0
