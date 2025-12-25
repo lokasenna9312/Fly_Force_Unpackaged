@@ -331,6 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61aab28fdfd71f749a6b69ebdbc5967e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.Ammunition.Bullet3
-  _deltaV: 30
   _damage: 3
   _missedShotPenalty: 10
+  _deltaV: 30
+  blast: {fileID: 4836312451735571223, guid: 9c50000b041b50348be0d648db9380fb, type: 3}

@@ -8,7 +8,9 @@ namespace Player.Ammunition
         // Bullet properties are set in the Inspector.
         private ParticleSystem trailParticles;
         private ParticleSystem.EmissionModule emission;
+        private ParticleSystem blastParticles;
         [SerializeField] private GameObject trail;
+        [SerializeField] private GameObject blast;
         [SerializeField] private Transform nozzle;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,7 +20,6 @@ namespace Player.Ammunition
             if (trail != null && nozzle != null)
             {
                 trailParticles = Instantiate(trail, nozzle.position, nozzle.rotation).GetComponent<ParticleSystem>();
-
                 if (trailParticles != null)
                 {
                     emission = trailParticles.emission;
@@ -46,11 +47,24 @@ namespace Player.Ammunition
 
         protected override void OnDestroy()
         {
+            base.OnDestroy();
             if (trailParticles != null)
             {
                 trailParticles.Stop();
             }
-            base.OnDestroy();
+            if (blast != null)
+            {
+                blastParticles = Instantiate(blast, transform.position, transform.rotation).GetComponent<ParticleSystem>();
+                if (blastParticles != null)
+                {
+                    var main = blastParticles.main;
+                    main.startSpeed = finalVelocity.magnitude;
+                    if (blastParticles.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
+                    {
+                        rb.linearVelocity = finalVelocity;
+                    }
+                }
+            }   
         }
     }
 }

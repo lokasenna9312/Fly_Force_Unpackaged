@@ -4,6 +4,8 @@ namespace Player
 {
     public abstract class BulletController : ImpulseProjectileController
     {
+        private ParticleSystem blastParticles;
+        [SerializeField] private GameObject blast;
         private Rigidbody2D _momentum;
         protected override Rigidbody2D momentum
         {
@@ -26,6 +28,20 @@ namespace Player
         protected override void Update()
         {
             base.Update();
+        }
+
+        protected void OnDestroy()
+        {
+            if (blast != null)
+            {
+                blastParticles = Instantiate(blast, transform.position, transform.rotation).GetComponent<ParticleSystem>();
+                if (blastParticles != null)
+                {
+                    var main = blastParticles.main;
+                    main.startSpeed = deltaV;
+                    blastParticles.Play();
+                }
+            }
         }
     }
 }

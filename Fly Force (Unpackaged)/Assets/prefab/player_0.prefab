@@ -108,18 +108,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   limitMax: {x: 10, y: 18, z: 0}
   limitMin: {x: -10, y: -18, z: 0}
+  speed: 0
+  fireDelay: 0
+  ShieldScorePenalty: 0
   prefabBullet:
   - {fileID: 8659308786222066922, guid: 5a5c8d5fcaedb0149b746ccfd78a1ce7, type: 3}
   - {fileID: 8659308786222066922, guid: a5741469e8024ca4bb07d978ad34e127, type: 3}
   - {fileID: 8659308786222066922, guid: 28adbb15a349db547a1cb3969bcb1aaa, type: 3}
-  speed: 0
-  fireDelay: 0
   BulletBomb: {fileID: 2737479303613629948, guid: 3ef3229d89fbee841a6ec3feb3b85d3a, type: 3}
-  BombDamage: 0
+  _bomb: 1
   Shield: {fileID: 4436905472507947979, guid: 2b18bc4f9bcad664a8468fa1cabab82f, type: 3}
-  ShieldDamage: 0
-  ShieldDuration: 0
-  ShieldScorePenalty: 0
 --- !u!95 &2721064014781358268
 Animator:
   serializedVersion: 7

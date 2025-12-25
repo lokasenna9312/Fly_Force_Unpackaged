@@ -11,6 +11,7 @@ namespace Player
         protected abstract float startMass { get; set; }
         protected abstract float fuelMass { get; set; }
         protected float time { get; set; }
+        protected Vector3 finalVelocity { get; set; }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
@@ -34,16 +35,17 @@ namespace Player
             {
                 ApplyForce(burstTime);
                 momentum.mass = Discharged(startMass, fuelMass);
+                finalVelocity = momentum.linearVelocity;
             }
             Debug.Log("Time: " + time + " Mass: " + momentum.mass);
         }
 
-        void ApplyForce(float burstTime)
+        protected void ApplyForce(float burstTime)
         {
             if (time < burstTime) momentum.AddForce(Vector3.up * acceleration);
         }
 
-        float Discharged(float startMass, float fuelMass)
+        protected float Discharged(float startMass, float fuelMass)
         {
             float burnRatio = Mathf.Clamp01(time / burstTime);
             float massOnTime = startMass - (fuelMass * burnRatio);

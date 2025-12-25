@@ -28,12 +28,12 @@ namespace Player
         public int bulletLevel
         {
             get => _bulletLevel;
-            private set => _bulletLevel = value;
+            set => _bulletLevel = value;
         }
 
         [SerializeField] private GameObject BulletBomb;
         public bool IsBulletBombPresent { get; private set; }
-        private int _bomb;
+        public int _bomb;
         public int Bomb
         {
             get => _bomb;
@@ -87,7 +87,6 @@ namespace Player
             ShieldScorePenalty = 100;
             isShieldActive = false;
 
-            Bomb = 1;
             UIManager.instance.BombCheck(Bomb);
             IsBulletBombPresent = false;
 
