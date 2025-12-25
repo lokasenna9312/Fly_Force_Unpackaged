@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 namespace Enemy
@@ -5,7 +6,7 @@ namespace Enemy
     public class MinionController : TargetController
     {
         [SerializeField] private GameObject enemyBullet;
-        GameObject player;
+        // GameObject player;
         Rigidbody2D rg2D;
         float fireDelay;
 
@@ -25,7 +26,6 @@ namespace Enemy
         {
             animator = GetComponent<Animator>();
             isDead = false;
-            player = GameObject.FindGameObjectWithTag("Player");
             tagName = gameObject.tag;
             score = 0;
             // 이동 관련 변수
@@ -47,9 +47,8 @@ namespace Enemy
 
         private void FireBullet()
         {
-            if (player == null)
-                return;
-
+            if (PlayerController.instance == null || PlayerController.instance.gameObject == null) return;
+            GameObject currentPlayer = PlayerController.instance.gameObject;
             fireDelay += Time.deltaTime;
             if (fireDelay > 3f)
             {
@@ -60,11 +59,15 @@ namespace Enemy
 
         private void Move()
         {
-            if (player == null)
-                return;
-            Vector3 distance = player.transform.position - transform.position;
-            Vector3 dir = distance.normalized;
-            rg2D.linearVelocity = dir * moveSpeed;
+            if (PlayerController.instance == null || PlayerController.instance.gameObject == null) return;
+            GameObject currentPlayer = PlayerController.instance.gameObject;
+            if (currentPlayer != null)
+            {
+                Vector3 distance = currentPlayer.transform.position - transform.position;
+                Vector3 dir = distance.normalized;
+                rg2D.linearVelocity = dir * moveSpeed;
+            }
+            if (PlayerController.instance == null) return;
         }
 
         public void TakeDamage(int incomingDamage, string damageSource)
@@ -88,16 +91,12 @@ namespace Enemy
         public int HandleDamage(int incomingDamage, string damageSource)
         {
             int remainingDamage = incomingDamage;
-
-            // HP1 처리
             if (hp > 0)
             {
                 int damageToHp = Mathf.Min(remainingDamage, hp);
                 TakeDamage(damageToHp, damageSource);
                 remainingDamage -= damageToHp;
             }
-
-            // (처음 받은 데미지 - 남은 데미지) = 실제 보스가 입은 데미지
             return incomingDamage - remainingDamage;
         }
 

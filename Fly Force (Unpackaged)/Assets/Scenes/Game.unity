@@ -999,7 +999,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &563342010
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1658,6 +1658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerPrefab: {fileID: 3064814053522954698, guid: a941bdc32db24ee4b938f7a8c31fe2f4, type: 3}
   playerController: {fileID: 0}
+  shieldAmmoGaugeController: {fileID: 0}
   playerPos: {x: 0, y: 0, z: 0}
 --- !u!4 &906305459
 Transform:
@@ -1816,8 +1817,9 @@ MonoBehaviour:
   - {fileID: 1660039417}
   - {fileID: 1922470823}
   - {fileID: 971791852}
+  playerController: {fileID: 0}
   shieldAmmoGauge: {fileID: 563342009}
-  shieldGaugeController: {fileID: 0}
+  shieldAmmoGaugeController: {fileID: 0}
   stageNoText: {fileID: 617837010}
   scoreText: {fileID: 775795333}
   highScoreText: {fileID: 1932956735}

@@ -4,6 +4,8 @@ namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
+        public static PlayerController instance;
+
         float x;
         float y;
         Vector3 speedVector;
@@ -17,7 +19,6 @@ namespace Player
         Animator animator;
 
         ShieldController shieldController;
-        ShieldAmmoGaugeController shieldAmmoGaugeController;
         public int ShieldScorePenalty;
 
         public bool isDead { get; private set; }
@@ -39,15 +40,38 @@ namespace Player
             private set
             {
                 _bomb = value;
-                UIManager.instance.BombCheck(_bomb);
+                UIManager.instance.BombCheck(value);
             }
         }
 
         public GameObject Shield;
         public bool isShieldActive { get; private set; }
+        private float _shieldAmmo = 0.0f;
+        public float ShieldAmmo
+        {
+            get { return _shieldAmmo; }
+            private set
+            {
+                _shieldAmmo = value;
+            }
+        }
+        private float _maxValue = 1.0f;
+        public float maxValue
+        {
+            get { return _maxValue; }
+            private set
+            {
+                _maxValue = value;
+            }
+        }
 
         public bool respawned { get; private set; }
         public bool deadAnimFinished { get; private set; }
+
+        private void Awake()
+        {
+            instance = this;
+        }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Start()
@@ -60,7 +84,6 @@ namespace Player
 
             bulletLevel = 1;
 
-            shieldAmmoGaugeController = UIManager.instance.shieldGaugeController;
             ShieldScorePenalty = 100;
             isShieldActive = false;
 
@@ -70,6 +93,11 @@ namespace Player
 
             respawned = true;
             deadAnimFinished = false;
+
+            if (UIManager.instance != null)
+            {
+                UIManager.instance.RegisterPlayer(this);
+            }
         }
 
         // Update is called once per frae
@@ -78,6 +106,7 @@ namespace Player
             if (isDead == false)
             {
                 Move();
+                ShieldAmmoSetter();
                 ShieldModule();
                 RespawnShield();
                 FireBullet();
@@ -183,11 +212,11 @@ namespace Player
         {
             if (Input.GetButtonDown("Shield"))
             {
-                if (isShieldActive == false && shieldAmmoGaugeController.ShieldAmmo == 1.0f)
+                if (isShieldActive == false && ShieldAmmo == 1.0f)
                 {
                     Debug.Log("Shield On!");
                     ShieldOn(100, 3.0f);
-                    shieldAmmoGaugeController.ShieldAmmoForceSetter(0.0f);
+                    ShieldAmmoForceSetter(0.0f);
                 }
                 else if (isShieldActive == true)
                 {
@@ -198,6 +227,25 @@ namespace Player
                     }
                 }
             }
+        }
+
+        public void ShieldAmmoSetter()
+        {
+            if (ShieldAmmo >= 0.0f && ShieldAmmo < 1.0f && isShieldActive == false)
+            {
+                ShieldAmmo += Time.deltaTime * 0.1f;
+                Debug.Log("Shield Charged " + ShieldAmmo * 100 + "%");
+            }
+            if (ShieldAmmo >= 1.0f)
+            {
+                ShieldAmmo = 1.0f;
+                Debug.Log("Shield is Fully Charged!");
+            }
+        }
+
+        public void ShieldAmmoForceSetter(float amount)
+        {
+            ShieldAmmo = amount;
         }
 
         public void RespawnShield()
@@ -264,6 +312,11 @@ namespace Player
             Destroy(gameObject);
             if (GameManager.instance.lifeCount >= 0) GameManager.instance.CreatePlayer();
             UIManager.instance.LifeCheck(GameManager.instance.lifeCount);
+        }
+
+        private void OnDestroy()
+        {
+            if (instance == this) instance = null;
         }
     }
 }

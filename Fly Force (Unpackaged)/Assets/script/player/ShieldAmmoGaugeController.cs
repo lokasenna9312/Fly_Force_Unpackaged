@@ -6,68 +6,35 @@ namespace Player
     public class ShieldAmmoGaugeController : MonoBehaviour
     {
         private PlayerController playerController;
-        private ShieldController shield;
 
         [SerializeField] private Image ShieldAmmoGauge;
 
-        private float _shieldAmmo = 0.0f;
-        public float ShieldAmmo
-        {
-            get { return _shieldAmmo; }
-            private set
-            {
-                _shieldAmmo = value;
-                UpdateBarUI();
-            }
-        }
-        private float _maxValue = 1.0f;
-        public float maxValue
-        {
-            get { return _maxValue; }
-            private set
-            {
-                _maxValue = value;
-                UpdateBarUI();
-            }
-        }
-
-        private float FillRatio => Mathf.Clamp01(ShieldAmmo / maxValue);
+        private float FillRatio => Mathf.Clamp01(playerController.ShieldAmmo / playerController.maxValue);
 
         void Start()
         {
-            playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-            if (playerController.isShieldActive == true) shield = GameObject.FindWithTag("Shield").GetComponent<ShieldController>();
+
         }
 
         void Update()
         {
-            ShieldAmmoSetter();
+            UpdateBarUI();
         }
 
-        void ShieldAmmoSetter()
+        public void Initializer(PlayerController owner)
         {
-            if (ShieldAmmo >= 0.0f && ShieldAmmo < 1.0f && playerController.isShieldActive == false)
-            {
-                ShieldAmmo += Time.deltaTime * 0.1f;
-                Debug.Log("Shield Charged " + ShieldAmmo * 100 + "%");
-            }
-            if (ShieldAmmo >= 1.0f)
-            { 
-                ShieldAmmo = 1.0f;
-                Debug.Log("Shield is Fully Charged!");
-            }
-        }
-
-        public void ShieldAmmoForceSetter(float amount)
-        {
-            ShieldAmmo = amount;
+            playerController = owner;
         }
 
         public void UpdateBarUI()
         {
-            if (ShieldAmmoGauge != null)
+            if (ShieldAmmoGauge != null && playerController != null)
             {
                 ShieldAmmoGauge.fillAmount = FillRatio;
+            }
+            else if (ShieldAmmoGauge != null)
+            {
+                ShieldAmmoGauge.fillAmount = 0; // 플레이어가 없으면 게이지 비움
             }
         }
     }

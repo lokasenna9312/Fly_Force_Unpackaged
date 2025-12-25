@@ -82,8 +82,7 @@ public class GameManager : MonoBehaviour
             playerPos = new Vector3(x, y, 0);
             GameObject player = Instantiate(playerPrefab, playerPos, Quaternion.identity);
             playerController = player.GetComponent<PlayerController>();
-            shieldAmmoGaugeController = UIManager.instance.shieldAmmoGauge.GetComponent<ShieldAmmoGaugeController>();
-            shieldAmmoGaugeController.ShieldAmmoForceSetter(0.0f);
+            playerController.ShieldAmmoForceSetter(0.0f);
             UIManager.instance.BombCheck(playerController.Bomb);
             UIManager.instance.ShieldAmmoGaugeController(playerController);
         }

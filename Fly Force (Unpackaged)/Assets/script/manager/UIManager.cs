@@ -7,9 +7,10 @@ using Player;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-    public GameObject[] bombs;
+    [SerializeField] private GameObject[] bombs;
+    public PlayerController playerController;
     public GameObject shieldAmmoGauge;
-    public ShieldAmmoGaugeController shieldGaugeController;
+    public ShieldAmmoGaugeController shieldAmmoGaugeController;
     public BossController currentBoss { get; private set; }
 
     // 스테이지
@@ -64,10 +65,9 @@ public class UIManager : MonoBehaviour
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         BlackOutCurtain_value = 1.0f;
         BlackOutCurtain_speed = 0.5f;
-
         if (shieldAmmoGauge != null)
         {
-            shieldGaugeController = shieldAmmoGauge.GetComponent<ShieldAmmoGaugeController>();
+            shieldAmmoGaugeController = shieldAmmoGauge.GetComponent<ShieldAmmoGaugeController>();
         }
     }
 
@@ -90,6 +90,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void RegisterPlayer(PlayerController pc)
+    {
+        playerController = pc;
+        if (shieldAmmoGaugeController != null)
+        {
+            shieldAmmoGaugeController.Initializer(pc);
+        }
+        Debug.Log("Player registered to UI components.");
+    }
+
     public void BombCheck(int bombCount)
     {
         for (int i = 0; i < bombs.Length; i++)
@@ -107,7 +117,7 @@ public class UIManager : MonoBehaviour
 
     public void ShieldAmmoGaugeController(PlayerController pc)
     {
-        if (shieldGaugeController != null)
+        if (shieldAmmoGaugeController != null)
         {
             shieldAmmoGauge.SetActive(true);
         }

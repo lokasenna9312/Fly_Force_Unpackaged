@@ -1,3 +1,4 @@
+using Player;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace Enemy
     public class BossController : TargetController
     {
         // 플레이어
+        PlayerController playerController;
         GameObject player;
 
         // 체력바
@@ -50,7 +52,7 @@ namespace Enemy
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            player = GameObject.FindWithTag("Player");
+            RefreshPlayerReference();
             spawnMovePos = GameObject.Find("BossSpawn").GetComponent<Transform>();
 
             isDead = false;
@@ -71,9 +73,23 @@ namespace Enemy
             {
                 MoveBoss();
             }
-            if (player == null && GameManager.instance.lifeCount >= 0)
+            if (player == null || (PlayerController.instance != null && player != PlayerController.instance.gameObject))
             {
-                player = GameObject.FindGameObjectWithTag("Player");
+                RefreshPlayerReference();
+            }
+        }
+
+        private void RefreshPlayerReference()
+        {
+            if (PlayerController.instance != null)
+            {
+                playerController = PlayerController.instance;
+                player = playerController.gameObject;
+            }
+            else
+            {
+                playerController = null;
+                player = null;
             }
         }
 
@@ -183,7 +199,7 @@ namespace Enemy
         {
             if (player == null)
                 return;
-
+                
             Instantiate(bossBullet, RAttackPos.position, Quaternion.identity);
         }
 
